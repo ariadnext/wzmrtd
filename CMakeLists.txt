@@ -46,10 +46,10 @@ if ( ${CMAKE_BUILD_TYPE} MATCHES Release )
     add_definitions ( -DNDEBUG )
 endif ( ${CMAKE_BUILD_TYPE} MATCHES Release )
 
-set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g -O2" )
-set ( CMAKE_CXX_FLAGS_DEBUG "-g -O0" )
-set ( CMAKE_CXX_FLAGS_RELEASE "-O2" )
-set ( CMAKE_CXX_FLAGS "-std=c++0x -Wall" )
+set ( CMAKE_C_FLAGS_RELWITHDEBINFO "-g -O2" )
+set ( CMAKE_C_FLAGS_DEBUG "-g -O0" )
+set ( CMAKE_C_FLAGS_RELEASE "-O2" )
+set ( CMAKE_C_FLAGS "-Wall -W" )
 
 add_definitions ( -DDISABLE_SPROX )
 

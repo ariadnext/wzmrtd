@@ -198,7 +198,7 @@ BOOL PCSC_IccTransmit (MRTD_CTX_ST * ctx, const BYTE send[], WORD send_sz, BYTE 
     pioSendPci = SCARD_PCI_T1;
   }
 
-  rc = SCardTransmit (ctx->reader.pcsc.hcard, NULL, send, send_sz, NULL, recv, &recv_sz_dw);
+  rc = SCardTransmit (ctx->reader.pcsc.hcard, pioSendPci, send, send_sz, NULL, recv, &recv_sz_dw);
   if (recv_sz != NULL)
     *recv_sz = (WORD) recv_sz_dw;
 

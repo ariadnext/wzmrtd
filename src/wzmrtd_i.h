@@ -27,6 +27,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#ifndef WIN32
+// for mkdir
+#include <sys/stat.h>
+#endif
 
 /* From main.c */ 
 /* ----------- */ 

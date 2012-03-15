@@ -39,7 +39,11 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToFilesEx(MRTD_CTX_ST * ctx, const char *out
     return FALSE;
 
   if (out_directory != NULL)
+#ifdef WIN32
     mkdir(out_directory);
+#else
+     mkdir(out_directory, S_IRWXU);
+#endif
 
   for (dg = 0; dg <= 16; dg++)
   {
