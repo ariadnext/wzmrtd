@@ -4,6 +4,11 @@
 #ifdef WIN32
   #include <windows.h>
   #include <direct.h>
+#else
+  #define TRUE 1
+  #define FALSE 0
+
+  #define MAX_PATH PATH_MAX
 #endif
 #ifndef DISABLE_PCSC
   #include <winscard.h>
@@ -17,5 +22,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include <time.h>
+#include <limits.h>
 
 #endif

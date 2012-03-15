@@ -11,7 +11,9 @@
 #endif
 
 /* We use the stdcall convention since it is easier for .NET callbacks */
-#define WZMRTD_LINK __stdcall
+//FIXME: Does not work with gcc
+//#define WZMRTD_LINK __stdcall
+#define WZMRTD_LINK
 
 /* The MRTD context object is abstract here */
 typedef struct _MRTD_CTX_ST MRTD_CTX_ST;

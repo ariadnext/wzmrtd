@@ -8,11 +8,13 @@
 #include "wzmrtd_i.h"
 #ifndef DISABLE_PCSC
 
+#ifdef WIN32
 #pragma comment(linker, "/ignore:4199")    // no imports found
 #pragma message("automatic link to winscard.lib")
 #pragma comment(lib, "winscard.lib")
 #pragma message("winscard.dll will be loaded just in time")
 #pragma comment(linker, "/delayload:winscard.dll")
+#endif
 
 BOOL PCSC_IccConnect (MRTD_CTX_ST * ctx, const char *pcsc_reader)
 {
@@ -25,11 +27,13 @@ BOOL PCSC_IccConnect (MRTD_CTX_ST * ctx, const char *pcsc_reader)
   if (ctx == NULL)
     return FALSE;
 
+#ifdef WIN32
   if (LoadLibrary("winscard.dll") == NULL)
   {
     MrtdSetLastError(ctx, MRTD_E_READER_NOT_AVAIL);
     return FALSE;
   }
+#endif
 
   /* Try to understand the pcsc_reader name */
   if (pcsc_reader == NULL)

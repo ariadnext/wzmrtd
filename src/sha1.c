@@ -14,7 +14,7 @@
 
 /* SHA1 internal functions */
 /* ----------------------- */
-void SHA1_Transform(DWORD state[5], const BYTE buffer[64]);
+static void SHA1_Transform(DWORD state[5], const BYTE buffer[64]);
 
 /* SHA1 initialization */
 /* -------------------- */

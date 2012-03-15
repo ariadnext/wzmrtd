@@ -24,6 +24,9 @@
 
 /* C standard library */ 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 
 /* From main.c */ 
 /* ----------- */ 
@@ -145,10 +148,12 @@ LONG MrtdWriteFile(const char *file_name, const BYTE data[], WORD size, BOOL ove
 
 /* From sprox_reader.c */ 
 /* ------------------- */ 
+#ifndef DISABLE_SPROX
 BOOL SPROX_IccConnect(MRTD_CTX_ST * ctx, const char *reader_name);
 BOOL SPROX_IccConnectEx(MRTD_CTX_ST * ctx, const char *reader_name, BYTE cid, BYTE type, BYTE max_dsi, BYTE max_dri);
 BOOL SPROX_IccDisconnect(MRTD_CTX_ST * ctx);
 BOOL SPROX_IccTransmit(MRTD_CTX_ST * ctx, const BYTE send[], WORD send_sz, BYTE recv[], WORD * recv_sz);
+#endif
 
 /* From pcsc_reader.c */ 
 /* ------------------ */ 

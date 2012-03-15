@@ -23,6 +23,7 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardConnect(MRTD_CTX_ST * ctx, const char *reade
     return FALSE;
   }
 
+#ifndef DISABLE_SPROX
   if (!strnicmp(reader_name, "SpringProx", 10)
    || !stricmp (reader_name, "SPX")
    || !stricmp (reader_name, "CSB"))
@@ -31,6 +32,7 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardConnect(MRTD_CTX_ST * ctx, const char *reade
     MrtdVerbose("SpringProx or CSB reader");
     return SPROX_IccConnect(ctx, reader_option);
   } else
+#endif
   {
     /* PC/SC reader */
     MrtdVerbose("PC/SC reader '%s'", reader_name);
@@ -51,8 +53,10 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardDisconnect(MRTD_CTX_ST * ctx)
   if (ctx->pcsc_reader)
     return PCSC_IccDisconnect(ctx);
 
+#ifndef DISABLE_SPROX
   if (ctx->sprox_reader)
     return SPROX_IccDisconnect(ctx);
+#endif
 
   MrtdSetLastError(ctx, MRTD_E_READER_NOT_AVAIL);
   return FALSE;
@@ -102,7 +106,9 @@ WZMRTD_LIB DWORD WZMRTD_LINK MrtdEnumReaders(EnumReadersProc Callback)
 {
   DWORD c = 0;
 
+#ifdef WIN32
   if (LoadLibrary("winscard.dll") != NULL)
+#endif
   {
     /* Step 1 : PC/SC readers */
     /* ---------------------- */
@@ -145,6 +151,7 @@ WZMRTD_LIB DWORD WZMRTD_LINK MrtdEnumReaders(EnumReadersProc Callback)
     SCardReleaseContext(hc);
   }
 
+#ifndef DISABLE_SPROX
   if (LoadLibrary("springprox.dll") != NULL)
   {
     /* Step 2 : SpringProx reader */
@@ -154,6 +161,7 @@ WZMRTD_LIB DWORD WZMRTD_LINK MrtdEnumReaders(EnumReadersProc Callback)
       Callback("SpringProx or CSB contactless reader", c);
     c++;
   }
+#endif
 
   return c;
 }

@@ -1,0 +1,10 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define VERSION_STRING "@VERSION_STRING@"
+
+#define INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+#define DATADIR "@CMAKE_INSTALL_PREFIX@/share/axtdocprocess"
+
+#endif // CONFIG_H
+

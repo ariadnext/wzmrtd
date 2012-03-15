@@ -11,8 +11,10 @@ BOOL MrtdIccTransmit(MRTD_CTX_ST * ctx, const BYTE send[], WORD send_len, BYTE r
 {
   if (ctx->pcsc_reader)
     return PCSC_IccTransmit(ctx, send, send_len, recv, recv_len);
+#ifndef DISABLE_SPROX
   if (ctx->sprox_reader)
     return SPROX_IccTransmit(ctx, send, send_len, recv, recv_len);
+#endif
   return FALSE;
 }
 
