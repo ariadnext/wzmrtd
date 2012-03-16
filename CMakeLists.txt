@@ -10,7 +10,7 @@ git_describe(VERSION_STRING "--tags" "--always")
 
 #if not possible use version number we ship instead
 IF(NOT VERSION_STRING)
-	set(VERSION_STRING "v0.81")
+	set(VERSION_STRING "v0.81.1")
 ENDIF(NOT VERSION_STRING)
 
 include( FindPkgConfig )
@@ -78,10 +78,10 @@ target_link_libraries (
     pcsclite
 )
 
-#configure_file (
-#    wzmrtd.pc.in
-#    wzmrtd.pc
-#)
+configure_file (
+    wzmrtd.pc.in
+    wzmrtd.pc
+)
 
 install(TARGETS wzmrtd LIBRARY DESTINATION lib)
 install(FILES
@@ -101,3 +101,5 @@ target_link_libraries (
     wzmrtd-tool
     wzmrtd
 ) 
+
+install(TARGETS wzmrtd-tool DESTINATION bin)
