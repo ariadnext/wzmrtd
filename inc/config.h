@@ -6,11 +6,23 @@
   #include <direct.h>
 
   #define LITTLE_ENDIAN /* should be defined if so */
+
+  #ifndef WZMRTD_LIB
+    /* We are to link to the DLL */
+    #define WZMRTD_LIB __declspec( dllimport )
+  #endif
+
+  /* We use the stdcall convention since it is easier for .NET callbacks */
+  #define WZMRTD_LINK __stdcall
 #else
   #define TRUE 1
   #define FALSE 0
 
   #define MAX_PATH PATH_MAX
+
+  #define WZMRTD_LIB
+
+  #define WZMRTD_LINK
 #endif
 
 #ifndef DISABLE_PCSC
@@ -26,3 +38,4 @@
 #include <limits.h>
 
 #endif
+

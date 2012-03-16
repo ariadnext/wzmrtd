@@ -5,16 +5,6 @@
 
 #define WZMRTD_EXPORT
 
-#ifndef WZMRTD_LIB
-  /* We are to link to the DLL */
-  #define WZMRTD_LIB __declspec( dllimport )
-#endif
-
-/* We use the stdcall convention since it is easier for .NET callbacks */
-//FIXME: Does not work with gcc
-//#define WZMRTD_LINK __stdcall
-#define WZMRTD_LINK
-
 /* The MRTD context object is abstract here */
 typedef struct _MRTD_CTX_ST MRTD_CTX_ST;
 
