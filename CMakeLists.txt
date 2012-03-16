@@ -26,7 +26,7 @@ configure_file (
   )
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}
     ${LIBPCSCLITE_INCLUDE_DIRS}
