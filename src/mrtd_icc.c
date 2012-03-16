@@ -71,7 +71,6 @@ BOOL MrtdIccGetChallenge(MRTD_CTX_ST * ctx, BYTE rnd_icc[8])
 BOOL MrtdIccMutualAuthenticate(MRTD_CTX_ST * ctx, BYTE send_buffer[40], BYTE recv_buffer[40]) 
 {
   BYTE io_buffer[46];
-  BYTE cmd_header[] = { 0x00, 0x82, 0x00, 0x00, 0x28};
   WORD resp_len;
   WORD sw;
   

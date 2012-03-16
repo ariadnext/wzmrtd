@@ -690,7 +690,7 @@ static void BacBuild_DO87 (MRTD_CTX_ST * ctx, BYTE dst[11], const BYTE data[], W
   assert (dst != NULL);
   assert (data != NULL);
   /* Check that we've room for buffer + padding */
-  assert ((size + 8) <= sizeof (padded_data));
+  assert (((unsigned int)size + 8) <= sizeof (padded_data));
 
   memcpy (padded_data, data, size);
 

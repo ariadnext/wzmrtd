@@ -1,5 +1,6 @@
 Name: wzmrtd
 Description: wzMRTD is a software library that reads electronic passports (also well known as E-Passports or biometric passports)
 Version: @VERSION_STRING@
+Requires: libpcsclite >= 1.0
 Libs: -L${CMAKE_INSTALL_PREFIX}/lib -lwzmrtd
 Cflags: -I${CMAKE_INSTALL_PREFIX}/include -DDISABLE_SPROX

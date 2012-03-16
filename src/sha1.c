@@ -66,10 +66,10 @@ void SHA1_Final(SHA1_CTX_ST *ctx, BYTE digest[20])
     finalcount[i] = (BYTE) ((ctx->count[(i >= 4 ? 0 : 1)] >> ((3-(i & 3)) * 8) ) & 255);  /* Endian independent */
   }
 
-  SHA1_Update(ctx, "\200", 1);
+  SHA1_Update(ctx, (BYTE *) "\200", 1);
   while ((ctx->count[0] & 504) != 448)
   {
-    SHA1_Update(ctx, "\0", 1);
+    SHA1_Update(ctx, (BYTE *) "\0", 1);
   }
   SHA1_Update(ctx, finalcount, 8);  /* Implies a final SHA1_Transform() */
   for (i = 0; i < 20; i++)

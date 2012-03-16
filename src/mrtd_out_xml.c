@@ -354,21 +354,21 @@ static LONG MrtdBioTemplateToXml(FILE * fp, BYTE data[], WORD size, const char *
     switch (tag)
     {
       case LDS_TAG_BIO_DATA: /* Plain biometric data block */
-        if (!strcmp(value, "FAC"))
+        if (!strcmp((const char*)value, "FAC"))
         {
           /* CBEFF facial image */
           rc = MrtdBioCbeffFacToXml(fp, value, length, images_file_prefix, overwrite);
           if (rc != MRTD_SUCCESS)
             return rc;
         } else
-        if (!strcmp(value, "FIR"))
+        if (!strcmp((const char*)value, "FIR"))
         {
           /* CBEFF finger image */
           rc = MrtdBioCbeffFirToXml(fp, value, length, images_file_prefix, overwrite);
           if (rc != MRTD_SUCCESS)
             return rc;
         } else
-        if (!strcmp(value, "FMR"))
+        if (!strcmp((const char*)value, "FMR"))
         {
           /* CBEFF finger minutiae */
           rc = MrtdBioCbeffFmrToXml(fp, value, length, images_file_prefix, overwrite);
@@ -459,7 +459,7 @@ static LONG MrtdBioDgToXml(FILE * fp, BYTE data[], WORD size, const char *images
     switch (tag)
     {
       case LDS_TAG_COUNT: /* Number of instances (not handled here) */
-        fprintf(fp, "\t\t<numberOfInstances>%d</numberOfInstances>\n", TLVGetDWORD(value, length));
+        fprintf(fp, "\t\t<numberOfInstances>%ld</numberOfInstances>\n", TLVGetDWORD(value, length));
         break;
       case LDS_TAG_BIO_INFO_TPL: /* Biometric info template */
         fprintf(fp, "\t\t<bioTemplate>\n");
@@ -518,7 +518,7 @@ static LONG MrtdImageDgToXml(FILE * fp, BYTE data[], WORD size, const char *imag
     switch (tag)
     {
       case LDS_TAG_COUNT: /* Number of instances (not handled here) */
-        fprintf(fp, "\t\t<numberOfImages>%d</numberOfImages>\n", TLVGetDWORD(value, length));
+        fprintf(fp, "\t\t<numberOfImages>%ld</numberOfImages>\n", TLVGetDWORD(value, length));
         break;
       case LDS_TAG_IMG_PORTRAIT: /* Portrait */
       case LDS_TAG_IMG_SIGNATURE: /* Signature */

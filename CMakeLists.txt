@@ -49,7 +49,7 @@ endif ( ${CMAKE_BUILD_TYPE} MATCHES Release )
 set ( CMAKE_C_FLAGS_RELWITHDEBINFO "-g -O2" )
 set ( CMAKE_C_FLAGS_DEBUG "-g -O0" )
 set ( CMAKE_C_FLAGS_RELEASE "-O2" )
-set ( CMAKE_C_FLAGS "-Wall -W" )
+set ( CMAKE_C_FLAGS "-Wall -W -Wno-unused-parameter" )
 
 add_definitions ( -DDISABLE_SPROX )
 
@@ -84,14 +84,19 @@ configure_file (
 )
 
 install(TARGETS wzmrtd LIBRARY DESTINATION lib)
+
 install(FILES
-    include/config.h
-    include/ldstags.h
-    include/springprox.h
-    include/wzmrtd.h
+    inc/config.h
+    inc/ldstags.h
+    inc/springprox.h
+    inc/wzmrtd.h
     DESTINATION include/wzmrtd
 )
 
+install(FILES
+    wzmrtd.pc
+    DESTINATION lib/pkgconfig
+)
 add_executable(
     wzmrtd-tool
     src/main.c

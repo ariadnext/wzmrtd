@@ -375,7 +375,7 @@ static BOOL WZMRTD_LINK callback(const char *info, const char *trace, DWORD pos,
 
   if ((pos != 0xFFFFFFFF) && (max != 0xFFFFFFFF) && (!silent))
   { 
-    fprintf(stdout, "%05d/%05d\b\b\b\b\b\b\b\b\b\b\b", pos, max);
+    fprintf(stdout, "%05lu/%05lu\b\b\b\b\b\b\b\b\b\b\b", pos, max);
   }
 
   return TRUE;
