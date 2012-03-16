@@ -172,3 +172,22 @@ WZMRTD_LIB const char * WZMRTD_LINK MrtdVersion(void)
 {
   return WZMRTD_VERSION;
 }
+
+WZMRTD_LIB BOOL WZMRTD_LINK MrtdGetDataGroup(MRTD_CTX_ST * mrtd_ctx, DWORD dgIndex, BYTE **out_dg, DWORD *dgLen)
+{
+    if (dgIndex > MRTD_DG_COUNT || !dgLen) {
+        MrtdSetLastError(mrtd_ctx, MRTD_E_INVALID_PARAM);
+        return FALSE;
+    }
+    else {
+        *out_dg = mrtd_ctx->DgData[dgIndex];
+        if (*out_dg) {
+            *dgLen = mrtd_ctx->DgSize[dgIndex];
+        }
+        else {
+            *dgLen = 0;
+        }
+        return TRUE;
+    }
+}
+

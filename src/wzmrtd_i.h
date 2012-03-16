@@ -35,7 +35,6 @@
 /* From main.c */ 
 /* ----------- */ 
 #define MRZ_INFO_SIZE 24 
-#define MRTD_DG_COUNT 16
 
 struct _MRTD_CTX_ST
 {

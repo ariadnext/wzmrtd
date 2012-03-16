@@ -49,6 +49,9 @@ typedef struct _MRTD_CTX_ST MRTD_CTX_ST;
 
 #define MRTD_CANCELLED            1200
 
+/* Max number of possible data groups */
+#define MRTD_DG_COUNT 16
+
 #ifdef __cplusplus
   extern "C" {
 #endif
@@ -71,6 +74,7 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToXML(MRTD_CTX_ST * mrtd_ctx, const char *xm
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToXMLEx(MRTD_CTX_ST * mrtd_ctx, const char *xml_file_name, BOOL sep_images, BOOL add_unproc_raw, BOOL add_full_raw, BOOL overwrite);
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToFiles(MRTD_CTX_ST * mrtd_ctx, const char *out_directory);
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToFilesEx(MRTD_CTX_ST * mrtd_ctx, const char *out_directory, const char *file_name_prefix, BOOL sep_text, BOOL sep_images, BOOL overwrite);
+WZMRTD_LIB BOOL WZMRTD_LINK MrtdGetDataGroup(MRTD_CTX_ST * mrtd_ctx, DWORD dgIndex, BYTE **out_dg, DWORD *dgLen);
 
 WZMRTD_LIB LONG WZMRTD_LINK MrtdGetLastError(MRTD_CTX_ST * mrtd_ctx);
 WZMRTD_LIB const char * WZMRTD_LINK MrtdTranslateError(LONG code);
