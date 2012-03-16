@@ -15,8 +15,13 @@
   /* We use the stdcall convention since it is easier for .NET callbacks */
   #define WZMRTD_LINK __stdcall
 #else
-  #define TRUE 1
-  #define FALSE 0
+  #ifndef TRUE
+    #define TRUE 1
+  #endif
+  
+  #ifndef FALSE
+    #define FALSE 0
+  #endif
 
   #define MAX_PATH PATH_MAX
 
