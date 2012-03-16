@@ -5,8 +5,6 @@
   #include <windows.h>
   #include <direct.h>
 
-  #define LITTLE_ENDIAN /* should be defined if so */
-
   #ifndef WZMRTD_LIB
     /* We are to link to the DLL */
     #define WZMRTD_LIB __declspec( dllimport )
@@ -35,6 +33,10 @@
 #endif
 #ifndef DISABLE_SPROX
   #include <springprox.h>
+#endif
+
+#ifndef LITTLE_ENDIAN
+#define LITTLE_ENDIAN /* should be defined if so */
 #endif
 
 #include <stdio.h>
