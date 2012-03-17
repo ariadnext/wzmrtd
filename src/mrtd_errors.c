@@ -43,6 +43,8 @@ WZMRTD_LIB const char * WZMRTD_LINK MrtdTranslateError(LONG code)
       return "Incoherent card answer";
     case MRTD_E_CARD_STATUS:
       return "Error signaled by the card";
+    case MRTD_E_SECURITY_STATUS:
+      return "Security status not satisfied";
     case MRTD_E_NO_LDS:
       return "Passport application not found on the card";
     case MRTD_E_NO_FILE:

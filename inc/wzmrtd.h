@@ -19,6 +19,7 @@ typedef struct _MRTD_CTX_ST MRTD_CTX_ST;
 #define MRTD_E_CARD_COMM          1012
 #define MRTD_E_CARD_ANSWER        1013
 #define MRTD_E_CARD_STATUS        1014
+#define MRTD_E_SECURITY_STATUS    1015
 
 #define MRTD_E_NO_LDS             1020
 #define MRTD_E_NO_FILE            1021

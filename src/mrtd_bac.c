@@ -289,7 +289,12 @@ BOOL MrtdBacReadFileEx (MRTD_CTX_ST * ctx, BYTE data[], WORD offset, WORD * leng
   if (sw != 0x9000)
   {
     MrtdVerbose ("MrtdBacReadFile : Bad status word %04X", sw);
-    MrtdSetLastError(ctx, MRTD_E_CARD_STATUS);
+    if (sw != 0x6982)
+        MrtdSetLastError(ctx, MRTD_E_CARD_STATUS);
+    else
+        /* DG is EAC or PACE protected */
+        MrtdSetLastError(ctx, MRTD_E_SECURITY_STATUS);  
+    
     return FALSE;
   }
 

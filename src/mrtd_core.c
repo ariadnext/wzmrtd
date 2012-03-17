@@ -348,6 +348,13 @@ BOOL MrtdReadPassportEx(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_strin
     /* First we read the header to retrieve the size */ 
     if (!MrtdReadFileSize(ctx, &filesize))     
     {
+      /* Skip if EAC protected */
+      if ( ctx->LastError == MRTD_E_SECURITY_STATUS )
+      {
+        /* Getting quicked out just screwed BAC */
+        ctx->Bac.enabled = FALSE;
+        continue;
+      }
       MrtdVerbose("Failed to read header of DG%d", dg);
       return FALSE;
     }
