@@ -173,6 +173,11 @@ WZMRTD_LIB const char * WZMRTD_LINK MrtdVersion(void)
   return WZMRTD_VERSION;
 }
 
+/*
+ * MrtdGetDataGroup
+ * ------------
+ * Provides a mean for the end user to access raw data groups data
+ */
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdGetDataGroup(MRTD_CTX_ST * mrtd_ctx, DWORD dgIndex, BYTE **out_dg, DWORD *dgLen)
 {
     if (dgIndex > MRTD_DG_COUNT || !dgLen) {
