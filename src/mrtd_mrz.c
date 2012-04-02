@@ -7,6 +7,8 @@
 
 #include "wzmrtd_i.h"
 
+const char * skipLine(const char *mrz_string);
+
 BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
 {
   const char *p;
@@ -22,20 +24,50 @@ BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
   }
 
   p = mrz_string;
-  if (strchr(p, '\r') != NULL) { p = strchr(p, '\r'); p++; }
-  if (strchr(p, '\n') != NULL) { p = strchr(p, '\n'); p++; }
-  if (strlen(p) < 28)
-  {
-    MrtdSetLastError(mrtd_ctx, MRTD_E_BAD_MRZ);
-    return FALSE;
-  }
+  if ( mrz_string[0] == 'I' ) {
+    /* Assume 3 lines ID document */
 
-  memcpy(&mrtd_ctx->Mrz.content[0],  &p[0], 10);
-  memcpy(&mrtd_ctx->Mrz.content[10], &p[13], 7);
-  memcpy(&mrtd_ctx->Mrz.content[17], &p[21], 7);
+    if (strlen(p) < 15)
+    {
+      MrtdSetLastError(mrtd_ctx, MRTD_E_BAD_MRZ);
+      return FALSE;
+    }
+
+    memcpy(&mrtd_ctx->Mrz.content[0], &p[5], 10);
+
+    /* Skip one line */
+    p = skipLine(p);
+    if (strlen(p) < 15)
+    {
+      MrtdSetLastError(mrtd_ctx, MRTD_E_BAD_MRZ);
+      return FALSE;
+    }
+    memcpy(&mrtd_ctx->Mrz.content[10], &p[0], 7);
+    memcpy(&mrtd_ctx->Mrz.content[17], &p[8], 7);
+
+  }
+  else {
+    /* Assume 2 lines passport */
+    p = skipLine(p);
+    if (strlen(p) < 28)
+    {
+      MrtdSetLastError(mrtd_ctx, MRTD_E_BAD_MRZ);
+      return FALSE;
+    }
+
+    memcpy(&mrtd_ctx->Mrz.content[0],  &p[0], 10);
+    memcpy(&mrtd_ctx->Mrz.content[10], &p[13], 7);
+    memcpy(&mrtd_ctx->Mrz.content[17], &p[21], 7);
+  }
 
   mrtd_ctx->Mrz.provided = TRUE;
 
   return TRUE;
 }
 
+const char * skipLine(const char *p)
+{
+    if (strchr(p, '\r') != NULL) { p = strchr(p, '\r'); p++; }
+    if (strchr(p, '\n') != NULL) { p = strchr(p, '\n'); p++; }
+    return p;
+}
