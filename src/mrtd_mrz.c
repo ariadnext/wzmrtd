@@ -26,7 +26,6 @@ BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
   p = mrz_string;
   if ( mrz_string[0] == 'I' ) {
     /* Assume 3 lines ID document */
-
     if (strlen(p) < 15)
     {
       MrtdSetLastError(mrtd_ctx, MRTD_E_BAD_MRZ);
@@ -44,7 +43,6 @@ BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
     }
     memcpy(&mrtd_ctx->Mrz.content[10], &p[0], 7);
     memcpy(&mrtd_ctx->Mrz.content[17], &p[8], 7);
-
   }
   else {
     /* Assume 2 lines passport */
