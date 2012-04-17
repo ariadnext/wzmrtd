@@ -112,8 +112,6 @@ BOOL MrtdReadFileSize(MRTD_CTX_ST * ctx, WORD * filesize);
 BOOL MrtdReadFile(MRTD_CTX_ST * ctx, BYTE filedata[], WORD filesize);
 BOOL MrtdSelectDG(MRTD_CTX_ST * ctx, BYTE dg);
 BOOL MrtdSelectApplet(MRTD_CTX_ST * ctx);
-BOOL MrtdReadPassportEx(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_string);
-
 
 /* From mrtd_bac.c */ 
 /* --------------- */ 
