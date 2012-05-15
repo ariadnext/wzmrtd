@@ -30,6 +30,7 @@ typedef struct _MRTD_CTX_ST MRTD_CTX_ST;
 #define MRTD_E_BAC_FAILED         1024
 
 #define MRTD_E_AUTH_INVALID       1025
+#define MRTD_E_BAC_INVALID_MRZ    1026
 
 #define MRTD_E_BAD_HEADER         1030
 #define MRTD_E_BAD_LENGTH         1031

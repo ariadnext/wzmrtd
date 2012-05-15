@@ -27,6 +27,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
+
 #ifndef WIN32
 // for mkdir
 #include <sys/stat.h>
@@ -95,6 +97,7 @@ struct _MRTD_CTX_ST
   {
     BOOL provided;
     BYTE content[MRZ_INFO_SIZE];
+    BOOL checksumsok;
   } Mrz;
 
 };

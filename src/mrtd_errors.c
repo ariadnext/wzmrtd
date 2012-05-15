@@ -54,9 +54,11 @@ WZMRTD_LIB const char * WZMRTD_LINK MrtdTranslateError(LONG code)
     case MRTD_E_BAC_NEEDS_MRZ:
       return "Basic authentication is needed, but MRZ not provided";
     case MRTD_E_BAC_FAILED:
-      return "Basic authentication failed, please check content of MRZ";
+      return "Basic authentication failed, MRZ invalid or bogus RF chip";
     case MRTD_E_AUTH_INVALID:
       return "Secure communication error, is card genuine ?";
+    case MRTD_E_BAC_INVALID_MRZ:
+      return "Basic authentication failed, MRZ check digits are invalid";
     case MRTD_E_BAD_HEADER:
       return "Invalid format in passport's data file";
     case MRTD_E_BAD_LENGTH:
