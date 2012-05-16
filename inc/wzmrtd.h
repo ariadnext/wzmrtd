@@ -51,8 +51,8 @@ typedef struct _MRTD_CTX_ST MRTD_CTX_ST;
 
 #define MRTD_CANCELLED            1200
 
-/* Max number of possible data groups */
-#define MRTD_DG_COUNT 16
+/* Max number of possible data groups (including SOD) */
+#define MRTD_DG_COUNT 17
 
 #ifdef __cplusplus
   extern "C" {

@@ -44,11 +44,17 @@ BOOL MrtdSelectFile(MRTD_CTX_ST * ctx, BYTE dg)
     buffer[5] = 0x01;
     buffer[6] = 0x1E; 
   } else
-  if (dg <= 16)    
+  if (dg < MRTD_DG_COUNT)    
   {
     /* File identifier for DGxx is 01xx */ 
     buffer[5] = 0x01;
     buffer[6] = dg;
+  } else    
+  if (dg == MRTD_DG_COUNT)    
+  {
+    /* File identifier for EF.SOD is 011D */ 
+    buffer[5] = 0x01;
+    buffer[6] = 0x1D;
   } else    
   {
     MrtdVerbose("MrtdSelectDG : Not implemented DG%d", dg);
@@ -326,6 +332,15 @@ BOOL MrtdReadPassportEx(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_strin
       /* This is EF.COM (pseudo DG 0). It is mandatory. DGList will be updated after it */
       MrtdStatus("Reading EF.COM");
 
+    } else
+    if (dg == MRTD_DG_COUNT)
+    {
+      if (!(want_dgs & (1 << dg))) continue; /* User doesn't want this DG */
+
+      if (ctx->Bac.enabled)
+        MrtdStatus("Reading EF.SOD (secure mode)...", dg);
+      else
+        MrtdStatus("Reading EF.SOD...", dg);
     } else
     {    
       if (!(have_dgs & (1 << dg))) continue; /* DG is absent from EF.COM list */

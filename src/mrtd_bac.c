@@ -358,10 +358,24 @@ BOOL MrtdBacSelectDG (MRTD_CTX_ST * ctx, BYTE dg)
   WORD sw;
 
   /* Construct the DO '87' of File ID */
-  if (dg == 0)
+  if (dg == 0) {
     file_id[1] = 0x1E;
-  else
+  } else
+  if (dg < MRTD_DG_COUNT)    
+  {
+    /* File identifier for DGxx is 01xx */ 
     file_id[1] = dg;
+  } else    
+  if (dg == MRTD_DG_COUNT)    
+  {
+    /* File identifier for EF.SOD is 011D */ 
+    file_id[1] = 0x1D;
+  } else    
+  {
+    MrtdVerbose("MrtdSelectDG : Not implemented DG%d", dg);
+    MrtdSetLastError(ctx, MRTD_E_INVALID_PARAM);
+    return FALSE;
+  }
 
   BacBuild_DO87 (ctx, build87, file_id, 2);
   memcpy (&buffer[0], SELECT_FILE_CMD, 8);
