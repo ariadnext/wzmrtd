@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+#define WZMRTD_VERSION "0.81"
+
 #define WZMRTD_EXPORT
 
 /* The MRTD context object is abstract here */
@@ -71,7 +73,7 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardConnect(MRTD_CTX_ST * ctx, const char *reade
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardDisconnect(MRTD_CTX_ST * ctx);
 
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdReadPassport(MRTD_CTX_ST * ctx, const char *mrz_string);
-WZMRTD_LIB BOOL WZMRTD_LINK MrtdReadPassportEx(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_string);
+WZMRTD_LIB BOOL WZMRTD_LINK MrtdReadPassportDgs(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_string);
 
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToXML(MRTD_CTX_ST * mrtd_ctx, const char *xml_file_name);
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdSaveToXMLEx(MRTD_CTX_ST * mrtd_ctx, const char *xml_file_name, BOOL sep_images, BOOL add_unproc_raw, BOOL add_full_raw, BOOL overwrite);

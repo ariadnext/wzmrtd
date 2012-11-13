@@ -1,8 +1,6 @@
 #ifndef __WZMRTD_I_H__
 #define __WZMRTD_I_H__
 
-#define WZMRTD_VERSION "0.81"
-
 #ifdef WZMRTD_DLL_EXPORTS
   /* We are building wzmrtd.dll, let's export our public methods */
   #define WZMRTD_LIB __declspec(dllexport)
@@ -115,6 +113,7 @@ BOOL MrtdReadFileSize(MRTD_CTX_ST * ctx, WORD * filesize);
 BOOL MrtdReadFile(MRTD_CTX_ST * ctx, BYTE filedata[], WORD filesize);
 BOOL MrtdSelectDG(MRTD_CTX_ST * ctx, BYTE dg);
 BOOL MrtdSelectApplet(MRTD_CTX_ST * ctx);
+BOOL MrtdReadPassportEx(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_string);
 
 /* From mrtd_bac.c */ 
 /* --------------- */ 

@@ -5,7 +5,14 @@
  * Please read LICENSE.txt for license and copyright info.
  */
 
-#include "wzmrtd_i.h"
+#include "wzmrtd.h"
+
+/* C standard library */ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+#include <ctype.h>
 
 /* Default values */
 const char *def_rdr_name    = "#0";
@@ -19,6 +26,7 @@ const char *rdr_option = NULL;
 const char *mrz_string = NULL;
 const char *out_xml    = NULL;
 const char *out_dir    = NULL;
+DWORD want_dgs = 0b1111111111100111;
 BOOL xml_sep_img = FALSE;
 BOOL xml_add_unp = FALSE;
 BOOL xml_add_raw = FALSE;
@@ -49,15 +57,9 @@ int main(int argc, char **argv)
   {
     /* Parser error */
     if (!silent)
-    {   
+    {
       fprintf(stderr, "Invalid(s) option(s) specified\n");
-      if (help)
-      {
-        usage(argc, argv);
-      } else
-      {
-        fprintf(stderr, "Try wzmrtd -h for help\n");
-      }
+      usage(argc, argv);
     }
     return EXIT_FAILURE;
   }
@@ -106,7 +108,7 @@ int main(int argc, char **argv)
   }
 
   /* Read the passport */
-  if (!MrtdReadPassport(mrtd_ctx, mrz_string))
+  if (!MrtdReadPassportDgs(mrtd_ctx, want_dgs, mrz_string))
   {
     if (!silent)
     {
@@ -117,6 +119,8 @@ int main(int argc, char **argv)
 
   /* Disconnect from the card (and the reader BTW) */
   MrtdCardDisconnect(mrtd_ctx);
+
+  printf("\n");
 
   /* Now export it */
   if (out_dir != NULL)
@@ -182,8 +186,15 @@ void usage(int argc, char **argv)
   fprintf(stderr, "                  library as the communication device to be used\n");
   fprintf(stderr, "\n");
   fprintf(stderr, "MRZ:\n");
-  fprintf(stderr, "  -z \"MRZ\"        second line of the machine readable zone of the\n");
-  fprintf(stderr, "                  document. It is needed for basic authentication.\n");
+  fprintf(stderr, "  -z \"MRZ\"      all lines of the machine readable zone of the\n");
+  fprintf(stderr, "                document. It is needed for basic authentication.\n");
+  fprintf(stderr, "                Easiest way to do this in bash is :             \n");
+  fprintf(stderr, "-z \"$(echo -e 'P<FRA********<<****************<<<<<<<<<<<<<\\n****************************<<<<<<<<<<<<<<**')\"\n");
+  fprintf(stderr, "\n");
+  fprintf(stderr, "DGs:\n");
+  fprintf(stderr, "  -dg \"<Data groups>\"   List of datagroup to read space separated.\n");
+  fprintf(stderr, "                        By default the reader will try to read DG all \n");
+  fprintf(stderr, "                        DGs except 3 and 4.                           \n");
   fprintf(stderr, "\n");
   fprintf(stderr, "Output specifier:\n");
   fprintf(stderr, "  -f FILE         passport content is saved in one single XML file\n");
@@ -246,6 +257,15 @@ int parse_args(int argc, char **argv)
       continue;
     }
     
+    if (!strcmp(argv[i], "-dg"))
+    {
+      /* DG */
+      while((i<argc-1) && (argv[i+1][0] != '-')) {
+        want_dgs |= 1 << atoi(argv[++i]);
+      }
+      continue;
+    }
+
     if (!strcmp(argv[i], "-f") || !strcmp(argv[i], "-xml"))
     {
       /* XML file name */

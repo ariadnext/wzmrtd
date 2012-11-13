@@ -63,12 +63,21 @@ WZMRTD_LIB BOOL WZMRTD_LINK MrtdCardDisconnect(MRTD_CTX_ST * ctx)
 }
 
 /*
- * MrtdReadPassport
- * ----------------
+ * MrtdReadPassport selecting all DGs
+ * ----------------------------------
  */
 WZMRTD_LIB BOOL WZMRTD_LINK MrtdReadPassport(MRTD_CTX_ST * ctx, const char *mrz_string)
 {
   return MrtdReadPassportEx(ctx, 0xFFFFFFFF, mrz_string);
+}
+
+/*
+ * MrtdReadPassport selecting specific DGs
+ * ---------------------------------------
+ */
+WZMRTD_LIB BOOL WZMRTD_LINK MrtdReadPassportDgs(MRTD_CTX_ST * ctx, DWORD want_dgs, const char *mrz_string)
+{
+  return MrtdReadPassportEx(ctx, want_dgs, mrz_string);
 }
 
 /*
