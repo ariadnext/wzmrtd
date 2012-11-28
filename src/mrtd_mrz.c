@@ -7,8 +7,11 @@
 
 #include "wzmrtd_i.h"
 
+#define MAX_FRAG_LENGTH 10 /* Maximum MRZ fragment length used to compute BAC */
+
 const char * skipLine(const char *mrz_string);
 void addMrzFragment(MRTD_CTX_ST * mrtd_ctx, int offset, const char *fragment, int frag_length);
+BOOL checksum(const char *fragment, int frag_length);
 
 unsigned int ansiCharValue(char c)
 {
@@ -25,6 +28,7 @@ BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
 
   mrtd_ctx->Mrz.provided = FALSE;
   mrtd_ctx->Mrz.checksumsok = TRUE;
+  mrtd_ctx->Mrz.fixedUpMrz = FALSE;
 
   if (mrz_string == NULL)
   {
@@ -72,7 +76,7 @@ BOOL MrtdAssignMrz(MRTD_CTX_ST * mrtd_ctx, const char *mrz_string)
   return TRUE;
 }
 
-void addMrzFragment(MRTD_CTX_ST * mrtd_ctx, int offset, const char *fragment, int frag_length)
+BOOL checksum(const char *fragment, int frag_length)
 {
     unsigned int val = 0;
     int i = 0;
@@ -92,9 +96,85 @@ void addMrzFragment(MRTD_CTX_ST * mrtd_ctx, int offset, const char *fragment, in
         }
     }
 
-    memcpy(&mrtd_ctx->Mrz.content[offset], fragment, frag_length);
+    return ( val % 10 ) == ansiCharValue(fragment[frag_length - 1]);
+}
 
-    mrtd_ctx->Mrz.checksumsok &= ( ( val % 10 ) == ansiCharValue(fragment[frag_length - 1]));
+void toggleO0(char *c)
+{
+    if ( *c == '0' ) {
+        *c = 'O';
+    }
+    else if ( *c == 'O' ) {
+        *c = '0';
+    }
+}
+
+/*
+ * Recursive function that checks if it is possible to have a correct checksum,
+ * trying 0 with O, O with 0 subsitution if needed, an returning the corrected 
+ * MRZ fragment.
+ * Must be called with fixupIndex at 0, higher order values are used internaly.
+ * Tries to minimize the number of subsitutions
+ */
+
+BOOL fixupMrz(char *fragment, int frag_length, int fixupIndex)
+{
+    if ( fixupIndex >= frag_length - 1 ) {
+        return FALSE;
+    }
+    else if ( checksum(fragment, frag_length) ) {
+        return TRUE;
+    }
+    else {
+        char curChar = fragment[fixupIndex];
+        if ( curChar == '0' || curChar == 'O' ) {
+            toggleO0(fragment + fixupIndex);
+            /* Tries with only change beging our substitution */
+            if ( checksum(fragment, frag_length) ) {
+                return TRUE;
+            }
+            else {
+                /* Cancel previous change */
+                toggleO0(fragment + fixupIndex);
+                /* Tries recursively WITHOUT our substitution */
+                if ( fixupMrz(fragment, frag_length, fixupIndex + 1) ) {
+                    return TRUE;
+                }
+                else {
+                    /* Re-apply change */
+                    toggleO0(fragment + fixupIndex);
+                    /* Tries recursively WITH our substitution */
+                    if ( fixupMrz(fragment, frag_length, fixupIndex + 1) ) {
+                        return TRUE;
+                    }
+                    else {
+                        return FALSE;
+                    }
+                }
+            }
+        }
+        else {
+            return fixupMrz(fragment, frag_length, fixupIndex + 1);
+        }
+    }
+}
+
+void addMrzFragment(MRTD_CTX_ST * mrtd_ctx, int offset, const char *fragment, int frag_length)
+{
+    char fixedMrzFragment[MAX_FRAG_LENGTH + 1];
+    strncpy(fixedMrzFragment, fragment, sizeof(fixedMrzFragment));
+
+    if ( fixupMrz(fixedMrzFragment, frag_length, 0) ) {
+        // Use fixed up MRZ fragment
+        mrtd_ctx->Mrz.checksumsok &= TRUE;
+        mrtd_ctx->Mrz.fixedUpMrz = TRUE;
+        memcpy(&mrtd_ctx->Mrz.content[offset], fixedMrzFragment, frag_length);
+    }
+    else {
+        // Keep original MRZ fragment
+        memcpy(&mrtd_ctx->Mrz.content[offset], fragment, frag_length);
+        mrtd_ctx->Mrz.checksumsok = FALSE;
+    }
 }
 
 const char * skipLine(const char *p)

@@ -96,6 +96,7 @@ struct _MRTD_CTX_ST
     BOOL provided;
     BYTE content[MRZ_INFO_SIZE];
     BOOL checksumsok;
+    BOOL fixedUpMrz;
   } Mrz;
 
 };

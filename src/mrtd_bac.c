@@ -132,7 +132,7 @@ BOOL MrtdBacInitialize (MRTD_CTX_ST * ctx)
   {
     MrtdVerbose("MrtdBacInitialize : IccMutualAuthenticate failed");
     MrtdStatus("Authentication failed, please verify MRZ");
-    if ( ctx->Mrz.checksumsok ) {
+    if ( ctx->Mrz.checksumsok && !ctx->Mrz.fixedUpMrz ) {
       MrtdSetLastError(ctx, MRTD_E_BAC_FAILED);
     }
     else {
