@@ -10,7 +10,7 @@ git_describe(VERSION_STRING "--tags" "--always")
 
 #if not possible use version number we ship instead
 IF(NOT VERSION_STRING)
-	set(VERSION_STRING "v0.81.1")
+	set(VERSION_STRING "v0.81.3")
 ENDIF(NOT VERSION_STRING)
 
 include( FindPkgConfig )
